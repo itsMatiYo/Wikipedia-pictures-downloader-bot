@@ -1,0 +1,15 @@
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+*.pyc
+*~
+__pycache__
+.vscode/
+.history/
+*.code-workspace
+.env
+wipidl/
+WIKI-PIC_DOWNLAODER/
