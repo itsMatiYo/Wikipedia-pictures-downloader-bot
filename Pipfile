@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bs4 = "*"
 requests = "*"
 lxml = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 autopep8 = "*"
