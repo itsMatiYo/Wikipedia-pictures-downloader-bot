@@ -2,6 +2,7 @@ import bs4
 import os
 import requests
 import lxml
+
 url = input('enter wikipedia page URL:')
 cwd = os.getcwd()
 if url.find(r'wikipedia.org') != -1:
