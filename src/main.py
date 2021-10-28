@@ -23,7 +23,9 @@ headers = {
 
 # regex to check if it is wikipedia
 if url.find(r'wikipedia.org') != -1:
-    page_name = url.split('/')[-1]
+    req = requests.get(f'{url}', headers=headers)
+    soup = bs4.BeautifulSoup(req.text, 'lxml')
+    page_name = soup.title.getText()
 
     # Make Page Directory
     try:
@@ -35,11 +37,7 @@ if url.find(r'wikipedia.org') != -1:
     else:
         print("Successfully created the directory")
 
-    # ? Extracting images
-    print(f'extrating the images of {page_name}')
-    req = requests.get(f'{url}', headers=headers)
-    soup = bs4.BeautifulSoup(req.text, 'lxml')
-
+    print(f'extrating the images of... \n{page_name}')
     for enlarger in soup.findAll('a', {'title': 'Enlarge'}):
         # print(enlarger)
         url_dl = enlarger['href']
