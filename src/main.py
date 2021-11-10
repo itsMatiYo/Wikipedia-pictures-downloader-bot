@@ -54,12 +54,14 @@ for enlarger in soup.findAll('a', {'title': 'Enlarge'}):
     tag = soup2.select_one(' .fullImageLink')
     pic_url = tag.a.img['src']
 
-    # making a legit file name (for windows)
-    img_name = img_name.replace('File:', '').replace('/', '').replace("\\", '').replace(":", '').replace(
-        "*", '').replace('?', '').replace("<", '').replace(">", '').replace("|", '').replace("\"", '')
-
     # decode image name to utf-8
     img_name = urllib.parse.unquote(img_name, encoding='utf-8')
+
+    # making a legit file name (for windows)
+    img_name = img_name.replace('File:', '').replace('/', '').replace("\\", '').replace(":", '').replace(
+        "*", '').replace('?', '').replace("<", '').replace(">", '').replace("|", '').replace('"', '')
+    print(img_name)
+
     pic_req = requests.get(f'https:{pic_url}', headers=headers)
     with open(f'{CWD}\\media\\{page_name}\\{img_name}', 'wb+') as f:
         f.write(pic_req.content)
