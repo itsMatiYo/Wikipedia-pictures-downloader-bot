@@ -53,7 +53,11 @@ for enlarger in soup.findAll('a', {'title': 'Enlarge'}):
     soup2 = bs4.BeautifulSoup(req.text, 'lxml')
     tag = soup2.select_one(' .fullImageLink')
     pic_url = tag.a.img['src']
-    img_name = img_name.replace('File:', '')
+
+    # making a legit file name (for windows)
+    img_name = img_name.replace('File:', '').replace('/', '').replace("\\", '').replace(":", '').replace(
+        "*", '').replace('?', '').replace("<", '').replace(">", '').replace("|", '').replace("\"", '')
+
     # decode image name to utf-8
     img_name = urllib.parse.unquote(img_name, encoding='utf-8')
     pic_req = requests.get(f'https:{pic_url}', headers=headers)
