@@ -5,7 +5,7 @@ import lxml
 import urllib
 
 CWD = os.getcwd()
-WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/"
+WIKIPEDIA_URL = "https://en.wikipedia.org"
 
 # header for Wikipedia User-Agent Policy
 HEADERS = {
@@ -25,7 +25,14 @@ except FileExistsError:
 
 # regex to check if it is wikipedia url or it is a keyword
 if url.find(r'en.wikipedia.org') == -1:
-    url = WIKIPEDIA_URL + url
+    # advanced serach
+    url = f'https://en.wikipedia.org/w/index.php?search={url}&title=Special:Search&fulltext=1&ns0=1'
+    req = requests.get(url, headers=HEADERS)
+    soup = bs4.BeautifulSoup(req.text, 'lxml')
+    first_link = soup.select_one(
+        '.mw-search-result > .mw-search-result-heading > a')['href']
+    url = f'{WIKIPEDIA_URL}{first_link}'
+    print(f'Search lead to {url}')
 
 req = requests.get(f'{url}', headers=HEADERS)
 soup = bs4.BeautifulSoup(req.text, 'lxml')
