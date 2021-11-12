@@ -3,6 +3,14 @@ import os
 import requests
 import lxml
 import urllib
+import platform
+
+nv = ''
+
+if platform.system() == 'Linux':
+    nv = '/'
+elif platform.system() == 'Windows':
+    nv = '\\'
 
 CWD = os.getcwd()
 WIKIPEDIA_URL = "https://en.wikipedia.org"
@@ -17,7 +25,7 @@ url = input(
 
 """Creating Media Directory"""
 try:
-    os.mkdir(f'{CWD}\\media')
+    os.mkdir(f'{CWD}{nv}media')
     print('media directory created')
 except FileExistsError:
     print('media directory was already created')
@@ -40,7 +48,7 @@ page_name = soup.title.getText()
 
 # Make WikiPage Directory
 try:
-    os.mkdir(f'{CWD}\\media\\{page_name}')
+    os.mkdir(f'{CWD}{nv}media{nv}{page_name}')
 except FileExistsError:
     print('This page directory was already created')
 except OSError:
@@ -73,14 +81,11 @@ for a in soup.select('a.image'):
     print(f'extracting {a_name}')
 
     pic_req = requests.get(f'https:{pic_url}', headers=HEADERS)
-    with open(f'{CWD}\\media\\{page_name}\\{a_name}', 'wb+') as f:
+    with open(f'{CWD}{nv}media{nv}{page_name}{nv}{a_name}', 'wb+') as f:
         f.write(pic_req.content)
 
 print('Imagines successfully extracted 💯')
 
 
 # ? future features
-
-# 404 shod chi beshe?
-# os e system
 # image faqat ba enlarge kar mikone
