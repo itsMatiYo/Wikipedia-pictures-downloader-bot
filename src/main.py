@@ -4,6 +4,7 @@ import requests
 import lxml
 import urllib
 import platform
+import concurrent.futures
 
 nv = ''
 
@@ -57,10 +58,12 @@ else:
     print("Successfully created the directory")
 
 print(f'extrating the images of... \n{page_name}')
-for a in soup.select('a.image'):
+
+
+def download_image(a):
     if int(a.img['width']) < 101:
         print(f'Ignoring {a["href"]}')
-        break
+        return
 
     url_dl = a['href']
     url_pic = f'https://en.wikipedia.org{url_dl}'
@@ -84,8 +87,9 @@ for a in soup.select('a.image'):
     with open(f'{CWD}{nv}media{nv}{page_name}{nv}{a_name}', 'wb+') as f:
         f.write(pic_req.content)
 
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    executor.map(download_image, soup.select('a.image'))
+
+
 print('Imagines successfully extracted 💯')
-
-
-# ? future features
-# image faqat ba enlarge kar mikone
