@@ -14,3 +14,7 @@
 # wipidl/
 # WIKI-PIC_DOWNLAODER/
 media/
+.vscode/
+venv/
+__pycache__
+*.txt
