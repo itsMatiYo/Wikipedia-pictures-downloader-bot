@@ -4,7 +4,7 @@ from wikipage import WikipediaImage, WikiPediaPage
 
 
 def run(imageLink):
-    img = WikipediaImage(imageLink, wikipage.get_page_title())  # make this better
+    img = WikipediaImage(imageLink, wikipage)
     img.download_img()
 
 

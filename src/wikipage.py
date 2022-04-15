@@ -28,7 +28,6 @@ HEADERS = {"User-Agent": config["wikipedia"]["USER-AGENT-HEADER"]}
 WIKIPEDIA_URL = config["wikipedia"]["WIKIPEDIA-URL"]
 
 
-# ! make wikipedia image a property class of wikipediapage
 class WikiPediaPage:
     def __init__(self, url):
         if self.is_valid_url(url):
@@ -63,7 +62,9 @@ class WikiPediaPage:
             print("no connection")
         soup = bs4.BeautifulSoup(req.text, "lxml")
         first_link = soup.select_one(
-            ".mw-search-result > .mw-search-result-heading > a"
+            ".mw-search-result \
+            > .mw-search-result-heading \
+            > a"
         )["href"]
         url = f"{WIKIPEDIA_URL}{first_link}"
         return url
@@ -76,10 +77,10 @@ class WikiPediaPage:
 
 
 class WikipediaImage:
-    def __init__(self, image_tag, page_title):
+    def __init__(self, image_tag, wikipage: WikiPediaPage):
         if self.is_not_thumbnail(image_tag):
             self.image_tag = image_tag
-            self.page_title = page_title
+            self.page_title = wikipage.get_page_title()
 
     def extract_img_dl_url(self):
         imagePageURL = self.image_tag["href"]
